@@ -1,4 +1,5 @@
-//...
+//Author Eva haritontseva-Beglova
+//a multiple by b without "*"
 #include <stdio.h>
 int main ()
 {
