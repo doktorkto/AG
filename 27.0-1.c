@@ -16,16 +16,23 @@ for (int i=0;i<=2;i++){
     else return c;
     else return a;}
 }
-float med(float a, float b, float c){
-    int n[2];
-    n[0]=a;
-    n[1]=b;
-    n[3]=c;
-    for (int i=1;i<=2;i++) {for (int j;j<=i-1;j++){
-        if (n[i]<n[j]) n[i]=n[j];n[j]=n[i];}}
-        a=n[0];
-        b=n[1];
-        c=n[2];
+float med(float d, float b, float c){
+    int a[2];
+    a[0]=d;
+    a[1]=b;
+    a[3]=c;
+for(int i = 0 ; i < 2; i++) {
+       for(int j = 0 ; j < 2 - i ; j++) {
+           if(a[j] > a[j+1]) {
+              int tmp = a[j];
+              a[j] = a[j+1] ;
+              a[j+1] = tmp;
+           }
+        }
+    }
+    d=a[0];
+    b=a[1];
+    c=a[2];
         return b;
     }
 void swap(float a, float b, float c){
