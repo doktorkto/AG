@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+ 
+using namespace std;
+struct Student{
+    string name, second_name, surname;
+    vector<int> marks;
+    double avg = 0;
+    bool is_grant = 1;
+    int missed_assigment = 0;
+    Student() {}
+    Student(string name, string sn, string sur, const vector<int>& marks) : name(name), second_name(sn), surname(sur) {
+        this->marks.resize(6);
+        for (int i = 0;i < 6;i++){
+            this->marks[i] = marks[i];
+            avg += marks[i];
+            if (marks[i] == 3) is_grant = 0;
+            else if (marks[i] <= 2) {
+                is_grant = 0;
+                missed_assigment++;
+            }
+        }
+        avg /= 6;
+    }
+    bool operator < (const Student& other){
+        return avg < other.avg;
+    }
+};
+Student make_new_student(){
+    string name, second_name, surname;
+    vector<int> marks(6);
+    cin >> name >> second_name >> surname;
+    for (int i = 0;i < 6;i++) cin >> marks[i];
+    cerr << "kek";
+    return Student(name, second_name, surname, marks);
+}
+ 
+int main() {
+    int n;
+    cin >> n;
+    vector<Student> students(n);
+    for (int i = 0;i < n;i++) students[i] = (make_new_student());
+    sort(students.begin(), students.end());
+    double avg = 0;
+    for (int i = 2;i < n - 2;i++) avg += students[i].avg;
+    avg /= max(n - 4, 1);
+   
+    cout << "Average of all students: " << avg << '\n';
+    int cnt_grant_holders = 0;
+    for (auto i : students) cnt_grant_holders += i.is_grant;
+    cout << "Count of grant holders: " << cnt_grant_holders << '\n';
+    int cnt_expelled = 0;
+    for (auto i : students) cnt_expelled += i.missed_assigment >= 2;
+    cout << "Count of Explled: " << cnt_expelled << '\n';
+}
