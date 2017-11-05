@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+ 
+using namespace std;
+struct Date{
+    int day, month, year;
+    Date(int day, int month, int year) : day(day), month(month), year(year) {}
+    string day_of_week = "";
+    int get_shift(){
+        int shift = 0;
+        for (int year = 1; year < this->year; year++)
+            shift += 365 + ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+        bool is_leap = ((this->year % 4 == 0 && this->year % 100 != 0) || this->year % 400 == 0);
+        int MONTHS[] = {INT_MAX, 31, 28 + is_leap, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // day in all months
+        for (int month = 1; month < this->month; month++)
+            shift += MONTHS[month];
+        for (int day = 1;day < this->day;day++) shift++;
+        return shift;
+    }
+    string get_day_of_week(){
+        int shift = get_shift();
+        if (day_of_week != "") return day_of_week;
+        /* returns string of day
+         * Example: 1.01.01 - Monday
+         */
+       
+        string NAMES[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        return day_of_week = NAMES[shift % 7];
+    }
+    int diff_days(Date other){
+        return abs(get_shift() - other.get_shift());
+    }
+    int diff_years(Date other){
+        return abs(year - other.year);
+    }
+    int diff_months(Date other){
+        return diff_years(other) * 12 + abs(month - other.month);
+    }
+};
+int main() {
+    /// format of input: "day month year"
+    int day, month, year;
+    cin >> day >> month >> year;
+    Date dt(day, month, year);
+    cout << dt.get_day_of_week() << '\n';
+    cin >> day >> month >> year;
+    Date dt1(day, month, year);
+    cout << dt.diff_years(dt1) << ' ' << dt.diff_months(dt1) << ' ' << dt.diff_days(dt1) << '\n';
+}
