@@ -1,5 +1,5 @@
-//
-//
+//Eva Haritontseva-Beglova
+//Removal recurrent elements
 
 #include <iostream>
 using namespace std;
