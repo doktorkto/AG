@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int strange_sum(int len, vector<int>& arr){
+    if (len == 1) return arr[0];
+    int half = len / 2;
+    vector<int> left_half(half), right_half(half);
+    for (int i = 0;i < half;i++){
+        left_half[i] = arr[i];
+        right_half[i] = arr[half + i];
+    }
+    if (len % 2) right_half.push_back(arr[len - 1]);
+    return strange_sum(half, left_half) + strange_sum(half + (len % 2), right_half);
+}
+int main() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for (int i = 0;i < n;i++){
+        cin >> arr[i];
+    }
+    cout << strange_sum(n, arr);
+    return 0;
+    }
