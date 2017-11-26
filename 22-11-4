@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+int power_10(int pow){
+    int ret = 1;
+    for (int i = 0;i < pow;i++) ret *= 10;
+    return ret;
+}
+int reverse(int num){
+    int ret = 0;
+    int cnt = 0;
+    while (num){
+        ret += (num % 10) * power_10(cnt++);
+        num /= 10;
+    }
+    return ret;
+}
+void print_palindromes(int l){
+    if (l % 2 == 0) {
+        for (int i = 0;i < l;i++) cout << 9;
+        return;
+    }
+    if (l == 1){
+        cout << 9 << '\n';
+        return;
+    }
+    int half = l / 2;
+    for (int i = power_10(half - 1);i < power_10(half);i++){
+        int med = 9 - (2 * i % 9);
+        cout << i << med << reverse(i) << '\n';
+        if (med == 9) cout << i << 0 << reverse(i) << '\n';
+    }
+    return;
+}
+int main() {
+    int l;
+    cin >> l;
+    print_palindromes(l);
+    return 0;
+}
