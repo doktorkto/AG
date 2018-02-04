@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+struct complex_{
+    double real;
+    double image;
+    complex_(double r, double re){
+        re=real;
+        r=image;
+    }
+    complex_& operator+(complex_& R){
+        int real_sum=real+R.real;
+        int image_sum=image+R.image;
+        return *this=complex_(real_sum, image_sum);
+    }
+    complex_& operator*(complex_& R){
+        int real_multiply=real*R.real-image*R.image;
+        int image_multiply=image*R.real+real*R.image;
+        return *this=complex_(real_multiply, image_multiply);
+    }
+    bool operator==(complex_ R){
+        return((real==R.real)&&(image==R.image));
+    }
+     bool operator!=(complex_ R){
+        return((real=!R.real)&&(image=!R.image)||(image=!R.image)||(real=!R.real));
+    }
+};
+struct vector_complex{
+    vector<complex_> vc;
+    vector_complex() {
+
+    }
+    void push_back(complex_ a){
+        vc.push_back(a);
+    }
+    complex_ operator[](int a){
+        return vc[a];
+    }
+};
+int main(){
+    int n=9;
+    int m=3;
+    complex_ a(n, m);
+    complex_ b(m, n);
+
+}
