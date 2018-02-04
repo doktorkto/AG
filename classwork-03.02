@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+
+struct Num{
+    vector<int> dividers;
+    map<int, int> count_;
+    Num(int n){
+        int old_n = n;
+        for (int i = 2; i * i <= old_n; i++){
+            while (n % i == 0){
+                if (dividers.size() == 0 || dividers.back() != i) dividers.push_back(i);
+                n /= i;
+                count_[i]++;
+            }
+        }
+        if (n != 1){
+            dividers.push_back(n);
+            count_[n]++;
+        }
+    }
+    int get_number(){
+        int number = 1;
+        for (int i = 0; i < dividers.size(); i++){
+            int divider = dividers[i];
+            for (int j = 1;j <= count_[divider]; j++) number *= divider;
+        }
+        return number;
+    }
+    bool operator==(const Num& R){
+        return dividers == R.dividers && count_ == R.count_;
+    }
+
+    Num& operator%= (Num& R){
+        int num = get_number(), num1 = R.get_number();
+        return *this = Num(num % num1);
+    }
+    Num& operator--(int){
+        int num = get_number();
+        return *this = Num(num);
+    }
+};
+
+int main(){
+    int n;
+    cin >> n;
+    Num a(n);
+}
