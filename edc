@@ -1,0 +1,105 @@
+#include <iostream>
+#include <vector>
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+using namespace std;
+
+long long gcd(long long a, long long b){ //нахождение НОДа
+	if(b==0)
+		return a;
+	return gcd(b, a%b);
+}
+long long mul(long long a, long long b, long long m){ //бинарное возведение в степень
+	if(b==1)
+		return a;
+	if(b%2==0){
+		long long t = mul(a, b/2, m);
+		return (2 * t) % m;
+	}
+	return (mul(a, b-1, m) + a) % m;
+}
+
+long long pows(long long a, long long b, long long m){ //возведение в степень по модулю
+	if(b==0)
+		return 1;
+	if(b%2==0){
+		long long t = pows(a, b/2, m);
+		return mul(t , t, m) % m;
+	}
+	return ( mul(pows(a, b-1, m) , a, m)) % m;
+}
+bool ferma(long long x){ //проверка на простоту
+	if(x == 2)
+		return true;
+	srand(time(NULL));
+	for(int i=0;i<100;i++){
+		long long a = (rand() % (x - 2)) + 2;
+		if (gcd(a, x) != 1)
+			return false;
+		if( pows(a, x-1, x) != 1)
+			return false;
+	}
+	return true;
+}
+
+int findprime(int m){ //поиск простого
+    bool flag=0;
+    int r=m+1;
+    while (flag == 0){
+        if (ferma(r) == 1) flag=1;
+        else r++;
+    }
+    return r;
+}
+
+int phi (int n) { //Функция Эйлера
+	int result = n;
+	for (int i=2; i*i<=n; ++i){
+		if (n % i == 0) {
+			while (n % i == 0) n /= i;
+			result -= result / i;
+		}
+}
+if (n > 1) 	result -= result / n;
+	return result;
+}
+
+int generator (int p) { //генерация первообразного корня
+	vector<int> fact;
+	int phi = p-1,  n = phi;
+	for (int i=2; i*i<=n; ++i)
+		if (n % i == 0) {
+			fact.push_back (i);
+			while (n % i == 0)
+				n /= i;
+		}
+	if (n > 1)
+		fact.push_back (n);
+
+	for (int res=2; res<=p; ++res) {
+		bool ok = true;
+		for (size_t i=0; i<fact.size() && ok; ++i)
+			ok &= pows (res, phi / fact[i], p) != 1;
+		if (ok)  return res;
+	}
+	return -1;
+}
+
+int main(){
+ int M;
+ cout << "write M:";
+ cin >> M;
+ int p=findprime(M);
+ int g=generator(p);
+ int x = rand()%(p-1)+1;
+ int y = pows(g,x,p);
+ cout << "prime number: " << p << "\n";
+ cout << "public key:" <<" y = " << y << "\n";
+ cout << "private key:" <<" x = " << x << "\n";
+ int k = rand()%(p-2) + 2;
+ cout << k << "\n";
+ long long int a = pows(g,k,p);
+ long long int b = (pow(y,k)*M)%p;
+ cout << "encrypted message: a =" << a << "  b = " << b;
+}
