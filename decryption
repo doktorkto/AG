@@ -1,0 +1,32 @@
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
+int powmod (int a, int b, int p) {
+	int res = 1;
+	while (b)
+		if (b & 1)
+			res = int (res * 1ll * a % p),  --b;
+		else
+			a = int (a * 1ll * a % p),  b >>= 1;
+	return res;
+}
+
+int reste(int a, int d, int b, int c){
+    int res=powmod(a,d,c)*(b%c);
+    if (res >= c) res = res%c;
+    return res;
+}
+
+int main(){
+    int x,y,a,b,p;
+    cout << "write encrypted message: ";
+    cin >> a >> b;
+    cout << "write the public key: ";
+    cin >> y;
+    cout << "write the private key: ";
+    cin >> x;
+    cout << "write prime number: ";
+    cin >> p;
+    cout << "M: " << reste(a,p-1-x,b,p);
+}
