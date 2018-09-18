@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    int qv;
+    int qp;
+    cin >> qp >> qv;
+    int b[qv];
+    int e[qv];
+    bool matrix[qp][qp];
+    bool matrix1[qp][qv];
+    int n=1;
+    for (int i = 1; i <= qv ; i++){
+        for (int j = 1; j <= qp; j++){
+            matrix[i][j] = 0;
+            matrix1[i][j]=0;
+            }
+    }
+    for (int i = 1; i <= qv ; i++){
+        cin >> b[i] >> e[i];
+        matrix[b[i]][e[i]]=1;
+        matrix[e[i]][b[i]]=1;
+    }
+    for (int i = 1; i<=qv;i++){
+            matrix1[i][b[i]]=1;
+            matrix1[i][e[i]]=1;
+            }
+  for (int i = 1; i <= qp ; i++){
+        for (int j = 1; j <= qp; j++){
+            cout << matrix[i][j] << "  ";
+        }
+        cout << "\n";
+    }
+    cout << "\n" << "\n";
+     for (int i = 1; i <= qp ; i++){
+        for (int j = 1; j <= qp; j++){
+            cout << matrix1[i][j] << "  ";
+        }
+        cout << "\n";
+     }
+}
